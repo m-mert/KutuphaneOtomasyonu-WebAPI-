@@ -1,6 +1,7 @@
 ﻿using KutuphaneOtomasyonu.Context;
 using KutuphaneOtomasyonu.Dtos.CategoryDto;
 using KutuphaneOtomasyonu.Dtos.WriterDto;
+using KutuphaneOtomasyonu.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,28 @@ namespace KutuphaneOtomasyonu.Controllers
 
             return writerDto;
 
+        }
+        [HttpPost]
+        [Route("CreateWriter")]
+        public ActionResult<CreateWriterDto> CreateWriter(CreateWriterDto createWriterDto)
+        {
+            try
+            {
+                Writer writer = new Writer
+                {
+                    Name = createWriterDto.FirsName,
+                    Surname = createWriterDto.LastName
+                };
+                _dbContext.Writers.Add(writer);
+                _dbContext.SaveChanges();
+                return Ok(createWriterDto);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            } 
+            
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using KutuphaneOtomasyonu.Context;
 using KutuphaneOtomasyonu.Dtos.BookDto;
 using KutuphaneOtomasyonu.Dtos.CategoryDto;
+using KutuphaneOtomasyonu.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,27 @@ namespace KutuphaneOtomasyonu.Controllers
 
             return bookDto;
         }
+        [HttpPost]
+        [Route("CreateBook")]
+        public ActionResult<CreateBookDto> CreateBook(CreateBookDto createBookDto)
+        {
+            try
+            {
+                Book book = new Book
+                {
+                    Name = createBookDto.Name,
 
+                };
+                _dbContext.Books.Add(book);
+                _dbContext.SaveChanges();
+                return Ok(createBookDto);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
